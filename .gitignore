@@ -1,0 +1,7 @@
+# Random project files
+.idea/
+venv/
+__pycache__/
+*.pyc
+
+secrets.py
