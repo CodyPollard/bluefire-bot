@@ -2,6 +2,7 @@ import discord, secrets, sqlite3, re, asyncio
 from discord.ext import commands
 from datetime import datetime, timedelta
 from apscheduler.schedulers.background import BackgroundScheduler
+from eveonline.eveapi import system_kill
 from sqlite3 import Error
 
 BOT_TOKEN = secrets.BOT_TOKEN
@@ -154,6 +155,17 @@ async def delete(ctx):
         await ctx.message.channel.send('Timer deleted')
     except ValueError:
         await ctx.message.channel.send('Invalid timer ID given.')
+
+
+@bot.command(name='scramblethejets')
+async def rat_kills(ctx):
+    """Outputs list of systems with rat kills above limit"""
+    in_range = system_kill()
+    msg_str = '```css\nActive Systems in Range:\n'
+    for sys in in_range:
+        msg_str += '%s\n' % sys
+    msg_str += '```'
+    await ctx.message.channel.send(msg_str)
 
 
 # Not Commands #
