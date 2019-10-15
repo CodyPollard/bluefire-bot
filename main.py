@@ -1,4 +1,4 @@
-import discord, secrets, sqlite3, re, asyncio
+import discord, secrets, sqlite3, re, logging
 from discord.ext import commands
 from datetime import datetime, timedelta
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -15,12 +15,16 @@ REFRESH_INTERVAL = 5
 prefix = '!'
 bot = commands.Bot(command_prefix=prefix)
 scheduler = BackgroundScheduler()
+# Logging
+logging.basicConfig(filename='milkbot.log', level=logging.DEBUG)
+
 
 
 @bot.event
 async def on_ready():
     # Run at start
     print('Ready.')
+    logging.info('Milkbot connected and ready...')
 
 
 # Trade Block Commands #
@@ -256,8 +260,10 @@ class Timers:
 
 
 if __name__ == '__main__':
+    logging.info('Setting Timers and TradeBlock...')
     bftimers = Timers()
     tblock = TradeBlock()
+    logging.info('Starting bot.run...')
     bot.run(BOT_TOKEN)
 
 
